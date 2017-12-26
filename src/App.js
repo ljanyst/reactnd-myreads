@@ -8,7 +8,7 @@ import * as BooksAPI from './BooksAPI';
 import './App.css';
 import { Route, Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
-import findBy from 'array-find-by';
+import SearchScreen from './SearchScreen';
 
 //------------------------------------------------------------------------------
 // Books App
@@ -58,7 +58,8 @@ class BooksApp extends React.Component {
       .then(() => {
         this.setState((state) => {
           var shelf_books = state.shelf_books;
-          shelf_books[src] = shelf_books[src].filter((b) => b.id !== book.id);
+          if(src in this.state.shelf_books)
+            shelf_books[src] = shelf_books[src].filter((b) => b.id !== book.id);
           if(dst !== 'none')
             shelf_books[dst].push(book);
           return {shelf_books};
@@ -73,26 +74,8 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route path='/search' render={() => (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
+          <SearchScreen
+            moveBook={this.moveBook} />
         )}/>
 
         <Route exact path='/' render={() => (

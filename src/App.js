@@ -105,13 +105,19 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <div>
                 {['currentlyReading', 'wantToRead', 'read'].map((shelf_id) => (
-                  <BookShelf
-                    key={shelf_id}
-                    shelfId={shelf_id}
-                    title={this.state.shelf_names[shelf_id]}
-                    books={this.state.shelf_books[shelf_id]}
-                    moveBook={this.moveBook}
-                    />
+                  <div className="bookshelf"
+                       key={'bs-'+shelf_id}>
+                    <h2 className="bookshelf-title"
+                        key={'h2-'+shelf_id}>
+                      {this.state.shelf_names[shelf_id]}
+                    </h2>
+                    <BookShelf
+                      key={shelf_id}
+                      shelfId={shelf_id}
+                      books={this.state.shelf_books[shelf_id]}
+                      moveBook={this.moveBook}
+                      />
+                  </div>
                 ))}
               </div>
             </div>

@@ -18,7 +18,6 @@ class BookShelf extends Component {
   //----------------------------------------------------------------------------
   static propTypes = {
     shelfId: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
     books: PropTypes.array.isRequired,
     moveBook: PropTypes.func.isRequired
   }
@@ -27,38 +26,39 @@ class BookShelf extends Component {
   // Render
   //----------------------------------------------------------------------------
   render () {
-    const { title, books, moveBook, shelfId } = this.props;
+    const { books, moveBook, shelfId } = this.props;
+    var cn = 'bookshelf-books';
+    if(shelfId === 'search-shelf')
+      cn = 'search-books-results';
     return (
-      <div className="bookshelf">
-        <h2 className="bookshelf-title">{title}</h2>
-        <div className="bookshelf-books">
-          <ol className="books-grid">
-            {books.map((book) => (
-              <li key={book.id}>
-                <div className="book">
-                  <div className="book-top">
-                    <div
-                      className="book-cover"
-                      style={{
-                        width: 128,
-                        height: 193,
-                        backgroundImage: `url(${book.imageLinks.thumbnail})`
-                      }}>
-                    </div>
-                    <ShelfChanger
-                      bookId={book.id}
-                      shelf={shelfId}
-                      moveBook={moveBook}
-                      />
+      <div className={cn}>
+        <ol className="books-grid">
+          {books.map((book) => (
+            <li key={book.id}>
+              <div className="book">
+                <div className="book-top">
+                  <div
+                    className="book-cover"
+                    style={{
+                      width: 128,
+                      height: 193,
+                      backgroundImage: `url(${book.imageLinks.thumbnail})`
+                    }}>
                   </div>
-                  <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.authors.join(', ')}</div>
+                  <ShelfChanger
+                    bookId={book.id}
+                    shelf={shelfId}
+                    moveBook={moveBook}
+                    />
                 </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
+                <div className="book-title">{book.title}</div>
+                {'authors' in book &&
+                <div className="book-authors">{book.authors.join(', ')}</div>}
+              </div>
+            </li>
+          ))}
+      </ol>
+    </div>
     );
   }
 }

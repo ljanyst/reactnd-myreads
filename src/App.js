@@ -8,6 +8,7 @@ import * as BooksAPI from './BooksAPI';
 import './App.css';
 import { Route, Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
+import findBy from 'array-find-by';
 
 //------------------------------------------------------------------------------
 // Books App
@@ -45,6 +46,26 @@ class BooksApp extends React.Component {
         shelf_books[books[i].shelf].push(books[i]);
       this.setState({shelf_books});
     });
+  }
+
+  //----------------------------------------------------------------------------
+  // Move book between shelves
+  //----------------------------------------------------------------------------
+  moveBook = (id, src, dst) => {
+    console.log(id, src, dst);
+    if(src === dst)
+      return;
+    const book = findBy.call(this.state.shelf_books[src], 'id', id)[0];
+    BooksAPI.update(book, dst)
+      .then(() => {
+        this.setState((state) => {
+          var shelf_books = state.shelf_books;
+          shelf_books[src] = shelf_books[src].filter((book) => book.id !== id);
+          if(dst !== 'none')
+            shelf_books[dst].push(book);
+          return {shelf_books};
+        });
+      });
   }
 
   //----------------------------------------------------------------------------
@@ -86,8 +107,10 @@ class BooksApp extends React.Component {
                 {['currentlyReading', 'wantToRead', 'read'].map((shelf_id) => (
                   <BookShelf
                     key={shelf_id}
+                    shelfId={shelf_id}
                     title={this.state.shelf_names[shelf_id]}
                     books={this.state.shelf_books[shelf_id]}
+                    moveBook={this.moveBook}
                     />
                 ))}
               </div>

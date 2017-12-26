@@ -6,6 +6,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
+import ShelfChanger from './ShelfChanger';
 
 //------------------------------------------------------------------------------
 // A book shelf
@@ -16,15 +17,17 @@ class BookShelf extends Component {
   // Property types
   //----------------------------------------------------------------------------
   static propTypes = {
+    shelfId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    moveBook: PropTypes.func.isRequired
   }
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render () {
-    const { title, books } = this.props;
+    const { title, books, moveBook, shelfId } = this.props;
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{title}</h2>
@@ -42,15 +45,11 @@ class BookShelf extends Component {
                         backgroundImage: `url(${book.imageLinks.thumbnail})`
                       }}>
                     </div>
-                    <div className="book-shelf-changer">
-                      <select>
-                        <option value="none" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none">None</option>
-                      </select>
-                    </div>
+                    <ShelfChanger
+                      bookId={book.id}
+                      shelf={shelfId}
+                      moveBook={moveBook}
+                      />
                   </div>
                   <div className="book-title">{book.title}</div>
                   <div className="book-authors">{book.authors.join(', ')}</div>

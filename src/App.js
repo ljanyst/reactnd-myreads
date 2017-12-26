@@ -51,16 +51,14 @@ class BooksApp extends React.Component {
   //----------------------------------------------------------------------------
   // Move book between shelves
   //----------------------------------------------------------------------------
-  moveBook = (id, src, dst) => {
-    console.log(id, src, dst);
+  moveBook = (book, src, dst) => {
     if(src === dst)
       return;
-    const book = findBy.call(this.state.shelf_books[src], 'id', id)[0];
     BooksAPI.update(book, dst)
       .then(() => {
         this.setState((state) => {
           var shelf_books = state.shelf_books;
-          shelf_books[src] = shelf_books[src].filter((book) => book.id !== id);
+          shelf_books[src] = shelf_books[src].filter((b) => b.id !== book.id);
           if(dst !== 'none')
             shelf_books[dst].push(book);
           return {shelf_books};

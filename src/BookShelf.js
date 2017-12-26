@@ -46,7 +46,7 @@ class BookShelf extends Component {
                     }}>
                   </div>
                   <ShelfChanger
-                    bookId={book.id}
+                    book={book}
                     shelf={shelfId}
                     moveBook={moveBook}
                     />

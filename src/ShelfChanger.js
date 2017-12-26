@@ -15,7 +15,7 @@ class ShelfChanger extends Component {
   // Property types
   //----------------------------------------------------------------------------
   static propTypes = {
-    bookId: PropTypes.string.isRequired,
+    book: PropTypes.object.isRequired,
     shelf: PropTypes.string.isRequired,
     moveBook: PropTypes.func.isRequired
   }
@@ -29,9 +29,9 @@ class ShelfChanger extends Component {
         <select
           defaultValue='disabled'
           onChange={(event) => {
-            const { bookId, shelf, moveBook } = this.props;
+            const { book, shelf, moveBook } = this.props;
             var target = event.target.value;
-            moveBook(bookId, shelf, target);
+            moveBook(book, shelf, target);
           }}>
           <option value="disabled" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>

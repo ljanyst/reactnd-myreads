@@ -114,6 +114,13 @@ class BooksApp extends React.Component {
                       shelfId={shelf_id}
                       books={this.state.shelf_books[shelf_id]}
                       moveBook={this.moveBook}
+                      changerTitle='Move to...'
+                      changerOptions={[
+                        {value: 'currentlyReading', text: 'Currently Reading'},
+                        {value: 'wantToRead', text: 'Want to Read'},
+                        {value: 'read', text: 'Read'},
+                        {value: 'none', text: 'None'}
+                      ]}
                       />
                   </div>
                 ))}

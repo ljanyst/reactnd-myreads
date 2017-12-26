@@ -19,14 +19,17 @@ class BookShelf extends Component {
   static propTypes = {
     shelfId: PropTypes.string.isRequired,
     books: PropTypes.array.isRequired,
-    moveBook: PropTypes.func.isRequired
+    moveBook: PropTypes.func.isRequired,
+    changerTitle: PropTypes.string.isRequired,
+    changerOptions: PropTypes.array.isRequired
   }
 
   //----------------------------------------------------------------------------
   // Render
   //----------------------------------------------------------------------------
   render () {
-    const { books, moveBook, shelfId } = this.props;
+    const { books, moveBook, shelfId, changerTitle,
+            changerOptions } = this.props;
     var cn = 'bookshelf-books';
     if(shelfId === 'search-shelf')
       cn = 'search-books-results';
@@ -49,6 +52,8 @@ class BookShelf extends Component {
                     book={book}
                     shelf={shelfId}
                     moveBook={moveBook}
+                    title={changerTitle}
+                    options={changerOptions}
                     />
                 </div>
                 <div className="book-title">{book.title}</div>

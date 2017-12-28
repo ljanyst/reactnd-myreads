@@ -9,21 +9,16 @@ import './App.css';
 import { Route, Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 import SearchScreen from './SearchScreen';
+import { shelfNames, shelfToList } from './utils';
 
 //------------------------------------------------------------------------------
 // Books App
 //------------------------------------------------------------------------------
 class BooksApp extends React.Component {
-
   //----------------------------------------------------------------------------
   // The state
   //----------------------------------------------------------------------------
   state = {
-    shelf_names: {
-      read: 'Read',
-      currentlyReading: 'Currently Reading',
-      wantToRead: 'Want To Read'
-    },
     shelf_books: {
       read: [],
       currentlyReading: [],
@@ -60,8 +55,10 @@ class BooksApp extends React.Component {
           var shelf_books = state.shelf_books;
           if(src in this.state.shelf_books)
             shelf_books[src] = shelf_books[src].filter((b) => b.id !== book.id);
-          if(dst !== 'none')
+          if(dst !== 'none') {
+            book.shelf = dst;
             shelf_books[dst].push(book);
+          }
           return {shelf_books};
         });
       });
@@ -75,7 +72,9 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route path='/search' render={() => (
           <SearchScreen
-            moveBook={this.moveBook} />
+            moveBook={this.moveBook}
+            shelfList={shelfToList(this.state.shelf_books)}
+            />
         )}/>
 
         <Route exact path='/' render={() => (
@@ -90,20 +89,13 @@ class BooksApp extends React.Component {
                        key={'bs-'+shelf_id}>
                     <h2 className="bookshelf-title"
                         key={'h2-'+shelf_id}>
-                      {this.state.shelf_names[shelf_id]}
+                      {shelfNames[shelf_id]}
                     </h2>
                     <BookShelf
                       key={shelf_id}
                       shelfId={shelf_id}
                       books={this.state.shelf_books[shelf_id]}
                       moveBook={this.moveBook}
-                      changerTitle='Move to...'
-                      changerOptions={[
-                        {value: 'currentlyReading', text: 'Currently Reading'},
-                        {value: 'wantToRead', text: 'Want to Read'},
-                        {value: 'read', text: 'Read'},
-                        {value: 'none', text: 'None'}
-                      ]}
                       />
                   </div>
                 ))}

@@ -18,7 +18,8 @@ class SearchScreen extends Component {
   // Property types
   //----------------------------------------------------------------------------
   static propTypes = {
-    moveBook: PropTypes.func.isRequired
+    moveBook: PropTypes.func.isRequired,
+    shelfList: PropTypes.array.isRequired
   }
 
   //----------------------------------------------------------------------------
@@ -64,12 +65,7 @@ class SearchScreen extends Component {
           shelfId='search-shelf'
           books={this.state.searchResults}
           moveBook={this.props.moveBook}
-          changerTitle='Add to...'
-          changerOptions={[
-            {value: 'currentlyReading', text: 'Currently Reading'},
-            {value: 'wantToRead', text: 'Want to Read'},
-            {value: 'read', text: 'Read'},
-          ]}
+          shelfList={this.props.shelfList}
           />
       </div>
     );

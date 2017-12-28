@@ -53,7 +53,10 @@ class BookShelf extends Component {
                       style={{
                         width: 128,
                         height: 193,
-                        backgroundImage: `url(${book.imageLinks.thumbnail})`
+                        backgroundImage: `url(${
+                          book.imageLinks
+                            ? book.imageLinks.thumbnail
+                            : 'https://historyexplorer.si.edu/sites/default/files/book-158.jpg'})`
                       }}>
                     </div>
                     <ShelfChanger

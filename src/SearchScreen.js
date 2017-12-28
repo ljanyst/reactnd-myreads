@@ -35,6 +35,11 @@ class SearchScreen extends Component {
   //----------------------------------------------------------------------------
   updateQuery = (text) => {
     this.setState({ searchQuery: text });
+    if(text === '') {
+      this.setState({searchResults: []});
+      return;
+    }
+
     BooksAPI.search(text)
       .then((results) => {
         if(results instanceof Array)
